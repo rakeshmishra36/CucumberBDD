@@ -12,6 +12,9 @@ git remote -v ( add the URL for the remote repository where your local repositor
 git pull --rebase origin master ( Local commits on top of the newly updated origin/master)
 git push origin master ( Push your changes in remote master)
 
+git branch --set-upstream-to=origin/master master
+git pull
+
 ==================Push changes from local branch to git hub =============================
 
 
