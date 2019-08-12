@@ -19,13 +19,13 @@ public class LoginPage extends BaseClass{
 	}	
 	
 	
-	@FindBy(xpath="//div[@class='air-search-form--fields-airports']/div[1]/label/div//input")
+	@FindBy(xpath="//input[@id='LandingAirBookingSearchForm_originationAirportCode']")
 	WebElement departure;
 	
-	@FindBy(xpath="//div[@class='air-search-form--fields-airports']/div[2]/label/div//input")
+	@FindBy(xpath="//input[@id='LandingAirBookingSearchForm_destinationAirportCode']")
 	WebElement arrival;
 	
-	@FindBy(id="LandingPageAirSearchForm_submit-button")
+	@FindBy(xpath="//button[@id='LandingAirBookingSearchForm_submit-button']")
 	WebElement searchButton;	
 	
 	@FindAll(@FindBy(how = How.CSS, using = ".noo-product-inner"))

@@ -88,8 +88,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 	public void runScenario(PickleEvent pickle) throws Throwable {
 		// Possibly invoked in a multi-threaded context
 		Runner runner = runnerSupplier.get();
-		TestCaseResultListener testCaseResultListener = new TestCaseResultListener(runner.getBus(),
-				runtimeOptions.isStrict());
+		TestCaseResultListener testCaseResultListener = new TestCaseResultListener(runner.getBus(), runtimeOptions.isStrict());
 		runner.runPickle(pickle);
 		testCaseResultListener.finishExecutionUnit();
 
@@ -131,7 +130,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 									System.out.println("Added Scenario name >>>>>>>>>>>>  " + pickle.pickle.getName());
 									break;
 								}
-								;
+								
 							}
 						}
 					}
