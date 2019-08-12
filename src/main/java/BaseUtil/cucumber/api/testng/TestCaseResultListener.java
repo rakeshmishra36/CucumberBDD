@@ -25,10 +25,10 @@ class TestCaseResultListener {
 	}
     };
 
-    TestCaseResultListener(EventBus bus, boolean strict) {
+    TestCaseResultListener(EventBus eventBus, boolean strict) {
         this.strict = strict;
-        this.bus = bus;
-        bus.registerHandlerFor(TestCaseFinished.class, testCaseFinishedHandler);
+        this.bus = eventBus;
+        eventBus.registerHandlerFor(TestCaseFinished.class, testCaseFinishedHandler);
     }
 
     void finishExecutionUnit() {

@@ -1,13 +1,20 @@
 package RunnerClass;
 
 
+import java.util.Properties;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.testng.annotations.BeforeSuite;
+
+import BaseUtil.CommonMethod;
+import BaseUtil.cucumber.api.testng.AbstractTestNGCucumberTests;
+
 //import java.io.File;
 //import java.util.Properties;
 //import org.testng.annotations.AfterClass;
 //import com.vimalselvam.cucumber.listener.*;
 
 import cucumber.api.CucumberOptions;
-import BaseUtil.cucumber.api.testng.AbstractTestNGCucumberTests;
 
 //@RunWith(Cucumber.clase)  - if want to run using JUnit , and remove extends class
 @CucumberOptions(
@@ -26,5 +33,14 @@ import BaseUtil.cucumber.api.testng.AbstractTestNGCucumberTests;
 		)
 public class TestRunner extends AbstractTestNGCucumberTests{
 	
+	public static CommonMethod commonMethod = new CommonMethod();;
+	public static Properties prop;
+	
+	@BeforeSuite
+	public static void loggerProperties() {
+		String configFileName = "./src/main/resources/log4j.properties";
+		PropertyConfigurator.configure(configFileName);
+		prop = commonMethod.getPropValues();
+	}
 
 }

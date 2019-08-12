@@ -31,13 +31,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import RunnerClass.TestRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class CommonMethod {
+public class CommonMethod extends TestRunner{
 
-	public WebDriver driver;
-	public InputStream inputStream;
-	public Properties prop;
+	public static WebDriver driver;
+	public static InputStream inputStream;
 	public List<String> list;
 	public List<List<String>> excelSheetRows;
 	public Workbook workBook = null;
@@ -46,18 +46,20 @@ public class CommonMethod {
 
 	public void Setup() {
 		logger = Logger.getLogger("ApplicationLog");
-		String configFileName = "./src/main/resources/log4j.properties";
-		PropertyConfigurator.configure(configFileName);
-		getPropValues();
 		openBrowser(prop.getProperty("browser"));
 	}
 
-	public void TearDown() throws IOException {
-		inputStream.close();
-		driver.quit();
+	public void TearDown() {		
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			System.out.println("Exception >> " + e.getMessage());
+		} finally {			
+			driver.quit();
+		}		
 	}
 
-	public void getPropValues() {
+	public Properties getPropValues() {
 		try {
 			prop = new Properties();
 			String propFileName = "configuration.properties";
@@ -73,7 +75,9 @@ public class CommonMethod {
 		} catch (IOException e) {
 			System.out.println("Exception: " + e);
 		}
+		return prop;
 	}
+
 
 	public void getCellType(List<String> innerList, Row row, int j) {
 		switch (row.getCell(j).getCellType()) {
