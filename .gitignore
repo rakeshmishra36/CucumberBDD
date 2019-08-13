@@ -4,3 +4,5 @@ target/
 .settings/
 *.logs
 test-output/
+.idea/
+abc
