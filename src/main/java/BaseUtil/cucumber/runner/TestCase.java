@@ -44,6 +44,7 @@ final class TestCase implements cucumber.api.TestCase {
 
         for (PickleStepTestStep step : testSteps) {
             skipNextStep |= step.run(this, bus, scenario, skipNextStep);
+            
         }
 
         for (HookTestStep after : afterHooks) {

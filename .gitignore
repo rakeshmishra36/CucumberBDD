@@ -4,4 +4,3 @@ target/
 .settings/
 *.logs
 test-output/
-abc
