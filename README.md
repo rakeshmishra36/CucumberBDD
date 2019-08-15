@@ -82,6 +82,3 @@ Add the file in your .gitignore.
 git rm --cached <file>
 Commit the removal of the file and the updated .gitignore to your repo.Cucumber Framework
 
-=============Rakesh Updates==============
-Added new line
-+++++++++++++++++
