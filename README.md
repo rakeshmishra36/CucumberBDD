@@ -83,6 +83,6 @@ Commit the removal of the file and the updated .gitignore to your repo.Cucumber 
 =====================Merged conflicts resolved==================================
 
 $ git rebase -i HEAD~1
-git commit --amend --author="Rakesh.mishra@wnco.com"
+git commit --amend --author="rakeshmishra36@gmail.com"
 :wq! => to escape vi editor
 git rebase --continue
