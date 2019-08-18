@@ -1,13 +1,11 @@
 # CucumberBDD
-Cucumber Framework
-Cucumber Framework
 
 ====================How to add project from local to Github=============================
 
 git init  ( Initialize the local directory as a Git repository)
 git add . ( Add the files in your new local repository. This stages them for the first commit)
 git commit -m "Message"  (Commit the files that you've staged in your local repository)
-git remote add origin https://github.com/rakeshmishra361/CucumberBDD.git ( add the URL for the remote repository where your local repository will be pushed)
+git remote add origin https://github.com/rakeshmishra36/CucumberBDD.git ( add the URL for the remote repository where your local repository will be pushed)
 git remote -v ( add the URL for the remote repository where your local repository will be pushed.) 
 git pull --rebase origin master ( Local commits on top of the newly updated origin/master)
 git push origin master ( Push your changes in remote master)
@@ -82,3 +80,9 @@ Add the file in your .gitignore.
 git rm --cached <file>
 Commit the removal of the file and the updated .gitignore to your repo.Cucumber Framework
 
+=====================Merged conflicts resolved==================================
+
+$ git rebase -i HEAD~1
+git commit --amend --author="Rakesh.mishra@wnco.com"
+:wq! => to escape vi editor
+git rebase --continue
