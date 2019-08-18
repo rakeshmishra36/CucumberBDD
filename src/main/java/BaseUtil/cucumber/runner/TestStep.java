@@ -7,9 +7,15 @@ import cucumber.api.event.TestStepFinished;
 import cucumber.api.event.TestStepStarted;
 import cucumber.runtime.StepDefinitionMatch;
 
+import java.io.IOException;
 import java.util.Arrays;
 
-abstract class TestStep implements cucumber.api.TestStep {
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+
+import BaseUtil.CommonMethod;
+
+abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
     private static final String[] ASSUMPTION_VIOLATED_EXCEPTIONS = {
         "org.junit.AssumptionViolatedException",
         "org.junit.internal.AssumptionViolatedException",
@@ -51,6 +57,17 @@ abstract class TestStep implements cucumber.api.TestStep {
         } catch (Throwable t) {
             error = t;
             status = mapThrowableToStatus(t);
+            if( Result.Type.FAILED.name().equalsIgnoreCase("FAILED") && driverClosed == false) {
+            	scenario.embed(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES), "image/png");
+            	try {
+        			inputStream.close();
+        		} catch (IOException e) {
+        			System.out.println("Exception >> " + e.getMessage());
+        		} finally {			
+        			driver.quit();
+        			driverClosed = true;
+        		}	
+            }            
         }
         Long stopTimeNanos = bus.getTime();
         Long stopTimeMillis = bus.getTimeMillis();
@@ -63,33 +80,29 @@ abstract class TestStep implements cucumber.api.TestStep {
     private Result.Type executeStep(Scenario scenario, boolean skipSteps) throws Throwable {
         if (!skipSteps) {
             stepDefinitionMatch.runStep(scenario);
-            System.out.println("Screen Shot attached - Passed");
-            return Result.Type.PASSED;
+            if (!(driverClosed == true)) {
+            	scenario.embed(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES), "image/png");
+            }            
+            return Result.Type.PASSED;            
         } else {
             stepDefinitionMatch.dryRunStep(scenario);
-            System.out.println("Screen Shot attached - Skipped");
             return Result.Type.SKIPPED;
         }
     }
 
     private Result.Type mapThrowableToStatus(Throwable t) {
         if (t.getClass().isAnnotationPresent(Pending.class)) {
-        	System.out.println("Screen Shot attached - Pending");
             return Result.Type.PENDING;
         }
         if (Arrays.binarySearch(ASSUMPTION_VIOLATED_EXCEPTIONS, t.getClass().getName()) >= 0) {
-        	System.out.println("Screen Shot attached - Skipped");
             return Result.Type.SKIPPED;
         }
         if (t.getClass() == UndefinedStepDefinitionException.class) {
-        	System.out.println("Screen Shot attached - Undefind");
             return Result.Type.UNDEFINED;
         }
         if (t.getClass() == AmbiguousStepDefinitionsException.class) {
-        	System.out.println("Screen Shot attached - Ambiguous");
             return Result.Type.AMBIGUOUS;
         }
-        System.out.println("Screen Shot attached - Failed");
         return Result.Type.FAILED;
     }
 
