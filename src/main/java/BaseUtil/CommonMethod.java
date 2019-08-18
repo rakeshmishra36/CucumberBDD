@@ -3,6 +3,7 @@ package BaseUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -11,14 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.codehaus.plexus.util.FileUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
@@ -29,6 +29,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.support.ui.Select;
 
 import RunnerClass.TestRunner;
@@ -38,15 +39,19 @@ public class CommonMethod extends TestRunner{
 
 	public static WebDriver driver;
 	public static InputStream inputStream;
+	public static SessionId session;
 	public List<String> list;
 	public List<List<String>> excelSheetRows;
 	public Workbook workBook = null;
 	public File file;
 	public static Logger logger;
+	public static byte[] SrcFile;
+	public static boolean driverClosed;
 
 	public void Setup() {
 		logger = Logger.getLogger("ApplicationLog");
 		openBrowser(prop.getProperty("browser"));
+		driverClosed = false;
 	}
 
 	public void TearDown() {		
@@ -56,6 +61,7 @@ public class CommonMethod extends TestRunner{
 			System.out.println("Exception >> " + e.getMessage());
 		} finally {			
 			driver.quit();
+			driverClosed = true;
 		}		
 	}
 
@@ -149,12 +155,20 @@ public class CommonMethod extends TestRunner{
 		System.out.println("Test case Map " + "\n" + testCaseMap);
 	}
 
-	public void takeScreenShot(WebDriver driver) throws IOException {
+	public byte[] takeScreenShot(WebDriver driver, long ms) throws IOException {
 		TakesScreenshot scrShot = ((TakesScreenshot) driver);
-		File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
-		File DestFile = new File("target/screenShots");
-		FileUtils.copyFile(SrcFile, DestFile);
+		SrcFile = scrShot.getScreenshotAs(OutputType.BYTES);		
+		FileUtils.copyFile(writeByte(SrcFile), new File("./target/ScreenShots/" + "ScreenShot"+ms+".png"));
+		return SrcFile;
 	}
+	
+	public File writeByte(byte[] bytes) throws IOException {
+		FileOutputStream fileOuputStream = new FileOutputStream("filename");
+		fileOuputStream.write(bytes);
+		fileOuputStream.close();
+		return file;		
+	}
+	
 
 	public WebDriver openBrowser(String Browser) {
 		if (Browser.equals("FireFox")) {
@@ -162,6 +176,8 @@ public class CommonMethod extends TestRunner{
 			System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
 			System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "target/Driverlogs.txt");
 			driver = new FirefoxDriver();
+			session = ((FirefoxDriver)driver).getSessionId();
+			System.out.println("Session id is >>>>> " +session.toString());
 		} else if (Browser.equals("Chrome")) {
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
@@ -171,9 +187,11 @@ public class CommonMethod extends TestRunner{
 			options.addArguments("--profile-directory=Profile 1");
 			options.addArguments("--start-maximized");
 			driver = new ChromeDriver(options);
+			session = ((ChromeDriver)driver).getSessionId();
 		} else if (Browser.equals("IE")) {
 			WebDriverManager.iedriver().setup();
 			driver = new InternetExplorerDriver();
+			session = ((InternetExplorerDriver)driver).getSessionId();
 		}
 		return driver;
 	}
@@ -214,8 +232,9 @@ public class CommonMethod extends TestRunner{
 		}
 	}
 
-	public void SelectDropDownValue(WebElement webElement, String Value) {
+	public void SelectDropDownValue(WebElement webElement, String Value) throws InterruptedException {
 		if (webElement != null) {
+			Thread.sleep(3000);
 			Select select = new Select(webElement);
 			select.selectByVisibleText(Value);
 		}
