@@ -1,19 +1,15 @@
 package BaseUtil.cucumber.runner;
 
+import java.io.IOException;
+import java.util.Arrays;
+
+import BaseUtil.CommonMethod;
 import cucumber.api.Pending;
 import cucumber.api.Result;
 import cucumber.api.TestCase;
 import cucumber.api.event.TestStepFinished;
 import cucumber.api.event.TestStepStarted;
 import cucumber.runtime.StepDefinitionMatch;
-
-import java.io.IOException;
-import java.util.Arrays;
-
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-
-import BaseUtil.CommonMethod;
 
 abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
     private static final String[] ASSUMPTION_VIOLATED_EXCEPTIONS = {
@@ -80,8 +76,10 @@ abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
 
     private Result.Type executeStep(Scenario scenario, boolean skipSteps) throws Throwable {
         if (!skipSteps) {
+        	String screenshotIn = prop.getProperty("Screenshot");
+        	String screenshotOut = System.getProperty("Screenshot");
             stepDefinitionMatch.runStep(scenario);
-            if (!(driverClosed == true)) {
+            if ( (!(driverClosed == true) && screenshotIn.equalsIgnoreCase("Y") && screenshotOut.equalsIgnoreCase("Y")) || (!(driverClosed == true) && screenshotOut.equalsIgnoreCase("Y"))) {
              	scenario.embed(visiblePageScreenshot(), "image/jpeg");
             }            
             return Result.Type.PASSED;            
