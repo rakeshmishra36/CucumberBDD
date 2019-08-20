@@ -4,6 +4,7 @@ import cucumber.api.TestCase;
 import cucumber.runtime.DefinitionArgument;
 import gherkin.pickles.PickleStep;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +34,7 @@ class PickleStepTestStep extends TestStep implements cucumber.api.PickleStepTest
     }
 
     @Override
-    boolean run(TestCase testCase, EventBus bus, Scenario scenario, boolean skipSteps) {
+    boolean run(TestCase testCase, EventBus bus, Scenario scenario, boolean skipSteps) throws IOException {
         boolean skipNextStep = skipSteps;
 
         for (HookTestStep before : beforeStepHookSteps) {

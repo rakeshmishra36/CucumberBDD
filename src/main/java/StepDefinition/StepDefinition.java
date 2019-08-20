@@ -33,18 +33,26 @@ public class StepDefinition extends CommonMethod {
 
 	@When("^valid Depart and arrival pair is entered$")
 	public void enterValidLocations() throws Throwable {
+		highlightElement(loginToPage.departureField());
 		clearAndSendKeysToElement(loginToPage.departureField(), "MCO");
+		highlightElement(loginToPage.arrivalField());
 		clearAndSendKeysToElement(loginToPage.arrivalField(), "DAL");
 		logger.info("DEST and ARR location code entered");
-		click(loginToPage.searchButton());
-		logger.info("Search button clicked");
+		//fullScreenShot(System.currentTimeMillis());
 	}
 
 	@When("^valid (.*) and (.*) location is entered$")
 	public void enterDataTablesLocations(String Depart, String Arrival) throws Throwable {
+		highlightElement(loginToPage.departureField());
 		clearAndSendKeysToElement(loginToPage.departureField(), Depart);
+		highlightElement(loginToPage.arrivalField());
 		clearAndSendKeysToElement(loginToPage.arrivalField(), Arrival);
-		logger.info("DEST and ARR location code entered");
+		logger.info("DEST and ARR location code entered");	
+	}
+	
+	@When("Search button clicked")
+	public void search_button_clicked() throws IOException {
+		highlightElement(loginToPage.searchButton());
 		click(loginToPage.searchButton());
 		logger.info("Search button clicked");
 	}
@@ -53,7 +61,7 @@ public class StepDefinition extends CommonMethod {
 	public void selectFlightPage() throws InterruptedException, IOException {
 		Thread.sleep(8000);
 		String pageTitle = driver.getTitle();
-		Assert.assertEquals(pageTitle, "Southwest Airlines - Select Flight");
+		Assert.assertEquals(pageTitle, "Southwest Airlines - Select Flights");
 		logger.info("Page title matched");
 	}
 	
@@ -74,7 +82,7 @@ public class StepDefinition extends CommonMethod {
 		//for (Map<String, String> location :  list) {
 			clearAndSendKeysToElement(loginToPage.departureField(), list.get(0).get("Source"));
 			clearAndSendKeysToElement(loginToPage.arrivalField(), list.get(0).get("Destination"));
-			click(loginToPage.searchButton());			
+			logger.info("DEST and ARR location code entered");	
 		//}	
 	}
 

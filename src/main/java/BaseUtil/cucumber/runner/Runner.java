@@ -13,6 +13,7 @@ import io.cucumber.core.logging.Logger;
 import io.cucumber.core.logging.LoggerFactory;
 import io.cucumber.core.options.RunnerOptions;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,7 +45,7 @@ public final class Runner {
         return bus;
     }
 
-    public void runPickle(PickleEvent pickle) {
+    public void runPickle(PickleEvent pickle) throws IOException {
         buildBackendWorlds(); // Java8 step definitions will be added to the glue here
         TestCase testCase = createTestCaseForPickle(pickle);
         testCase.run(bus);
