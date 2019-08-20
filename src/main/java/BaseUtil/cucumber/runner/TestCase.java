@@ -8,6 +8,7 @@ import gherkin.events.PickleEvent;
 import gherkin.pickles.PickleLocation;
 import gherkin.pickles.PickleTag;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ final class TestCase implements cucumber.api.TestCase {
         this.dryRun = dryRun;
     }
 
-    void run(EventBus bus) {
+    void run(EventBus bus) throws IOException {
         boolean skipNextStep = this.dryRun;
         Long startTimeMillis = bus.getTimeMillis();
         Long startTimeNanos = bus.getTime();

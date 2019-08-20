@@ -45,8 +45,9 @@ abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
      * @param scenario
      * @param skipSteps
      * @return true iff subsequent skippable steps should be skipped
+     * @throws IOException 
      */
-    boolean run(TestCase testCase, EventBus bus, Scenario scenario, boolean skipSteps) {
+    boolean run(TestCase testCase, EventBus bus, Scenario scenario, boolean skipSteps) throws IOException {
         Long startTimeMillis = bus.getTimeMillis();
         Long startTimeNanos = bus.getTime();
         bus.send(new TestStepStarted(startTimeNanos, startTimeMillis, testCase, this));
@@ -58,7 +59,7 @@ abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
             error = t;
             status = mapThrowableToStatus(t);
             if( Result.Type.FAILED.name().equalsIgnoreCase("FAILED") && driverClosed == false) {
-            	scenario.embed(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES), "image/png");
+            	scenario.embed(fullPageScreenshot(), "image/jpeg");
             	try {
         			inputStream.close();
         		} catch (IOException e) {
@@ -81,7 +82,7 @@ abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
         if (!skipSteps) {
             stepDefinitionMatch.runStep(scenario);
             if (!(driverClosed == true)) {
-            	scenario.embed(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES), "image/png");
+             	scenario.embed(visiblePageScreenshot(), "image/jpeg");
             }            
             return Result.Type.PASSED;            
         } else {
