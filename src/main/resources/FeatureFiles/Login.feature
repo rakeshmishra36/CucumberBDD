@@ -1,21 +1,3 @@
-#Author: rakeshmishra36@gmail.com
-#Keywords Summary : Cucumber-TestNG-POC
-#Feature: List of scenarios.
-#Scenario: Business rule through list of steps with arguments.
-#Given: Some precondition step
-#When: Some key actions
-#Then: To observe outcomes or validation
-#And,But: To enumerate more Given,When,Then steps
-#Scenario Outline: List of steps for data-driven as an Examples and <placeholder>
-#Examples: Container for s table
-#Background: List of steps run before each of the scenarios
-#""" (Doc Strings)
-#| (Data Tables)
-#@ (Tags/Labels):To group Scenarios
-#<> (placeholder)
-#""
-## (Comments)
-#Sample Feature Definition Template
 @Login
 Feature: Flight Search Feature 
 		As a Automation tester
@@ -28,12 +10,14 @@ Background: User navigates to Company home page
 @Basic
 Scenario: Flight Search scenario
 	When valid Depart and arrival pair is entered 
+	And Search button clicked
 	Then user should able to navigate to Select Flight Page 
 	And Verify Application is closed
 	
 @DateTables
 Scenario Outline: search for multiple combinations scenario
 	When valid <Depart> and <Arrival> location is entered
+	And Search button clicked
 	Then user should able to navigate to Select Flight Page
 	And Verify Application is closed
 	
@@ -46,6 +30,6 @@ Scenario Outline: search for multiple combinations scenario
 #@ExcelSheet 
 	#Scenario: Flight Search using excel sheet
 	#Meta-data: {"dataFile" : "/CucumberBDDSW/src/main/resources/FeatureConfiguration.xlsx"}
-	#When Valid Depart and arrival is entered from excelsheet placed at excel shhet
+	#When Valid Depart and arrival is entered from excelsheet placed at excel sheet
 	#Then user should able to navigate to Select Flight Page
 	#And Verify Application is closed

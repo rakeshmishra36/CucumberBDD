@@ -1,5 +1,8 @@
 package BaseUtil;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,14 +14,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.codehaus.plexus.util.FileUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
@@ -30,10 +38,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.SessionId;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.*;
 
 import RunnerClass.TestRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.Screenshot;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 public class CommonMethod extends TestRunner{
 
@@ -155,11 +166,21 @@ public class CommonMethod extends TestRunner{
 		System.out.println("Test case Map " + "\n" + testCaseMap);
 	}
 
-	public byte[] takeScreenShot(WebDriver driver, long ms) throws IOException {
+	public byte[] visiblePageScreenshot(){
 		TakesScreenshot scrShot = ((TakesScreenshot) driver);
 		SrcFile = scrShot.getScreenshotAs(OutputType.BYTES);		
-		FileUtils.copyFile(writeByte(SrcFile), new File("./target/ScreenShots/" + "ScreenShot"+ms+".png"));
 		return SrcFile;
+	}
+	
+	public byte[] fullPageScreenshot() throws IOException{
+		Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(ShootingStrategies.scaling(1.5f), 1500)).takeScreenshot(driver);
+		BufferedImage image = screenshot.getImage();
+		ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+		ImageIO.write( image, "jpg", byteArray );
+		byteArray.flush();
+		byte[] imageInByte = byteArray.toByteArray();
+		byteArray.close();
+		return imageInByte;
 	}
 	
 	public File writeByte(byte[] bytes) throws IOException {
@@ -169,6 +190,10 @@ public class CommonMethod extends TestRunner{
 		return file;		
 	}
 	
+	public void highlightElement(WebElement webElement) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].setAttribute('style','background: yellow; border: 2px solid red;');", webElement);
+	}
 
 	public WebDriver openBrowser(String Browser) {
 		if (Browser.equals("FireFox")) {
@@ -194,7 +219,7 @@ public class CommonMethod extends TestRunner{
 			session = ((InternetExplorerDriver)driver).getSessionId();
 		}
 		return driver;
-	}
+	}	
 
 	public void click(WebElement webElement) {
 		if (webElement != null) {
@@ -219,7 +244,6 @@ public class CommonMethod extends TestRunner{
 
 	public void clearAndSendKeysToElement(WebElement webElement, String text) throws InterruptedException {
 		if (webElement != null) {
-			Thread.sleep(3000);
 			clearInputField(webElement);
 			webElement.sendKeys(text);
 		}
@@ -234,9 +258,8 @@ public class CommonMethod extends TestRunner{
 
 	public void SelectDropDownValue(WebElement webElement, String Value) throws InterruptedException {
 		if (webElement != null) {
-			Thread.sleep(3000);
 			Select select = new Select(webElement);
 			select.selectByVisibleText(Value);
 		}
-	}
+	}	
 }

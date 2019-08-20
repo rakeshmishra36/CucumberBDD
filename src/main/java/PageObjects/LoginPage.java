@@ -18,7 +18,6 @@ public class LoginPage extends BaseClass{
 		super(driver);
 	}	
 	
-	
 	@FindBy(xpath="//input[@id='LandingAirBookingSearchForm_originationAirportCode']")
 	WebElement departure;
 	
@@ -41,10 +40,6 @@ public class LoginPage extends BaseClass{
 	
 	public WebElement searchButton() {
 		return searchButton;
-	}
-	
-	
-	public List<WebElement> select_Product() {
-		return prd_List;
-	}
+	}	
+
 }
