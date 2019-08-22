@@ -68,6 +68,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 		List<String> modifiedTagNames = new ArrayList<>();;
 		int size = allTagNames.size();
 		String tagName = System.getProperty("TagName");
+		String tagFromExcel = System.getProperty("TagFromExcel");
 
 		if (prop.getProperty("TagFromExcel").equalsIgnoreCase("Y") && tagName == null) {
 			System.out.println("++++++++++++Tags are added from Excelsheet+++++++++++");
@@ -117,6 +118,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 					"Scenarios");
 			int size = allScenarios.size();
 			String scenarioName = System.getProperty("ScenarioName");
+			String scenarioFromExcel = System.getProperty("ScenarioFromExcel");
 
 			for (CucumberFeature feature : features) {
 				System.out.println("Feature selected >>>>>>>>>>>>>" + feature.getName());
@@ -167,6 +169,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 		List<List<String>> allFeatures = readExcel("./src/main/resources/", "FeatureConfiguration.xlsx","Features");
 		int size = allFeatures.size();
 		String featureName = System.getProperty("FeatureName");
+		String featureFromExcelSheet = System.getProperty("FeatureFromExcelSheet");
 
 		if (prop.getProperty("FeatureFromExcel").equalsIgnoreCase("Y") && featureName == null) {
 			System.out.println("+++++++++++++++Features are added from Excelsheet+++++++++++++++");			

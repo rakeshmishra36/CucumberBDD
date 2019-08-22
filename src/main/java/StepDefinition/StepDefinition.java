@@ -67,7 +67,6 @@ public class StepDefinition extends CommonMethod {
 	
 	@When("^Valid Depart and arrival is entered from excelsheet placed at excel sheet$")
 	public void valid_Depart_and_arrival_is_entered_from_excelsheet_placed_at_excel_shhet() throws IOException, InterruptedException {
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		List<List<String>> raw = readExcel("./src/main/resources/", "FeatureConfiguration.xlsx", "Datatable");
 		List<Map<String, String>> list = DataTable.create(raw).asMaps();
 		
