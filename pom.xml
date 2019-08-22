@@ -54,12 +54,6 @@
 							</jsonFiles>
 							<checkBuildResult>false</checkBuildResult>
 							<systemPropertyVariables>
-								<FeatureName>${FeatureName}</FeatureName>
-								<ScenarioName>${ScenarioName}</ScenarioName>
-								<TagName>${TagName}</TagName>
-								<FeatureFromExcelSheet>${FeatureFromExcelSheet}</FeatureFromExcelSheet>
-								<ScenarioFromExcel>${ScenarioFromExcel}</ScenarioFromExcel>
-								<TagFromExcel>${TagFromExcel}</TagFromExcel>
 								<Screenshot>${Screenshot}</Screenshot>
 							</systemPropertyVariables>
 						</configuration>

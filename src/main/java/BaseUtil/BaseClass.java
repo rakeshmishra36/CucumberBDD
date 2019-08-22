@@ -11,7 +11,7 @@ public class BaseClass {
 
 	public BaseClass(WebDriver driver) {
 		this.driver = driver;
-		PageFactory.initElements(new AjaxElementLocatorFactory(this.driver, 10), this);
+		PageFactory.initElements(new AjaxElementLocatorFactory(this.driver, 20), this);
 	}	
 
 }

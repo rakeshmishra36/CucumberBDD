@@ -70,7 +70,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 		String tagName = System.getProperty("TagName");
 		String tagFromExcel = System.getProperty("TagFromExcel");
 
-		if ((prop.getProperty("TagFromExcel").equalsIgnoreCase("Y") && tagName == null && tagFromExcel.equalsIgnoreCase("Y")) || (tagName == null && tagFromExcel.equalsIgnoreCase("Y"))) {
+		if (prop.getProperty("TagFromExcel").equalsIgnoreCase("Y") && tagName == null) {
 			System.out.println("++++++++++++Tags are added from Excelsheet+++++++++++");
 			for (int i = 0; i < size; i++) {
 				if (allTagNames.get(i).get(1).equalsIgnoreCase("Y")) {
@@ -79,7 +79,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 			}
 			String tags = String.join(",", modifiedTagNames);
 			runtimeOptions.getTagFilters().add(tags);
-		} else if ((prop.getProperty("TagFromExcel").equalsIgnoreCase("N") && tagName == null && tagFromExcel.equalsIgnoreCase("N")) || (tagName == null && tagFromExcel.equalsIgnoreCase("N"))) {
+		} else if (prop.getProperty("TagFromExcel").equalsIgnoreCase("N") && tagName == null) {
 			System.out.println("++++++++++++Default Tags are added+++++++++++");
 		} else {
 			System.out.println("Tag is being executed >>>>>>>>>>>>  "+ tagName);
@@ -123,7 +123,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 			for (CucumberFeature feature : features) {
 				System.out.println("Feature selected >>>>>>>>>>>>>" + feature.getName());
 
-				if ((prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("Y") && scenarioName == null && scenarioFromExcel.equalsIgnoreCase("Y")) || (scenarioName == null && scenarioFromExcel.equalsIgnoreCase("Y"))) {
+				if (prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("Y") && scenarioName == null) {
 					System.out.println("+++++++++++++++Scenarios are added from Excelsheet+++++++++++++++");
 					for (PickleEvent pickle : feature.getPickles()) {
 						for (int i = 0; i < size; i++) {
@@ -138,7 +138,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 							}
 						}
 					}
-				} else if ((prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("N") && scenarioName == null && scenarioFromExcel.equalsIgnoreCase("N")) || (scenarioName == null && scenarioFromExcel.equalsIgnoreCase("N"))) {
+				} else if (prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("N") && scenarioName == null) {
 					System.out.println("+++++++++++++++All Scenarios Are Added+++++++++++++++");
 					for (PickleEvent pickle : feature.getPickles()) {
 						if (filters.matchesFilters(pickle)) {
@@ -171,7 +171,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 		String featureName = System.getProperty("FeatureName");
 		String featureFromExcelSheet = System.getProperty("FeatureFromExcelSheet");
 
-		if ((prop.getProperty("FeatureFromExcel").equalsIgnoreCase("Y") && featureName == null && featureFromExcelSheet.equalsIgnoreCase("Y")) || (featureName == null && featureFromExcelSheet.equalsIgnoreCase("Y"))) {
+		if (prop.getProperty("FeatureFromExcel").equalsIgnoreCase("Y") && featureName == null) {
 			System.out.println("+++++++++++++++Features are added from Excelsheet+++++++++++++++");			
 			for (CucumberFeature feature : features) {				
 				for (int i = 0; i < size; i++) {
@@ -187,7 +187,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 				}
 			}
 			
-		} else if ((prop.getProperty("FeatureFromExcel").equalsIgnoreCase("N") && featureName == null && featureFromExcelSheet.equalsIgnoreCase("N")) || (featureName == null && featureFromExcelSheet.equalsIgnoreCase("N"))) {
+		} else if (prop.getProperty("FeatureFromExcel").equalsIgnoreCase("N") && featureName == null) {
 			modifiedFeatures.addAll(features);
 			System.out.println("+++++++++++++++All Features Are Added+++++++++++++++");
 			
