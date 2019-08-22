@@ -1,6 +1,5 @@
 package BaseUtil;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,19 +13,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
@@ -38,7 +34,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.SessionId;
-import org.openqa.selenium.support.ui.*;
+import org.openqa.selenium.support.ui.Select;
 
 import RunnerClass.TestRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -190,9 +186,10 @@ public class CommonMethod extends TestRunner{
 		return file;		
 	}
 	
-	public void highlightElement(WebElement webElement) {
+	public WebElement highlightElement(WebElement webElement) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].setAttribute('style','background: yellow; border: 2px solid red;');", webElement);
+		return webElement;
 	}
 
 	public WebDriver openBrowser(String Browser) {

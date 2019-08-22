@@ -68,8 +68,9 @@ public class TestNGCucumberRunner extends CommonMethod {
 		List<String> modifiedTagNames = new ArrayList<>();;
 		int size = allTagNames.size();
 		String tagName = System.getProperty("TagName");
+		String tagFromExcel = System.getProperty("TagFromExcel");
 
-		if (prop.getProperty("TagFromExcel").equalsIgnoreCase("Y") && tagName == null) {
+		if ((prop.getProperty("TagFromExcel").equalsIgnoreCase("Y") && tagName == null && tagFromExcel.equalsIgnoreCase("Y")) || (tagName == null && tagFromExcel.equalsIgnoreCase("Y"))) {
 			System.out.println("++++++++++++Tags are added from Excelsheet+++++++++++");
 			for (int i = 0; i < size; i++) {
 				if (allTagNames.get(i).get(1).equalsIgnoreCase("Y")) {
@@ -78,7 +79,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 			}
 			String tags = String.join(",", modifiedTagNames);
 			runtimeOptions.getTagFilters().add(tags);
-		} else if (prop.getProperty("TagFromExcel").equalsIgnoreCase("N") && tagName == null) {
+		} else if ((prop.getProperty("TagFromExcel").equalsIgnoreCase("N") && tagName == null && tagFromExcel.equalsIgnoreCase("N")) || (tagName == null && tagFromExcel.equalsIgnoreCase("N"))) {
 			System.out.println("++++++++++++Default Tags are added+++++++++++");
 		} else {
 			System.out.println("Tag is being executed >>>>>>>>>>>>  "+ tagName);
@@ -117,11 +118,12 @@ public class TestNGCucumberRunner extends CommonMethod {
 					"Scenarios");
 			int size = allScenarios.size();
 			String scenarioName = System.getProperty("ScenarioName");
+			String scenarioFromExcel = System.getProperty("ScenarioFromExcel");
 
 			for (CucumberFeature feature : features) {
 				System.out.println("Feature selected >>>>>>>>>>>>>" + feature.getName());
 
-				if (prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("Y")) {
+				if ((prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("Y") && scenarioName == null && scenarioFromExcel.equalsIgnoreCase("Y")) || (scenarioName == null && scenarioFromExcel.equalsIgnoreCase("Y"))) {
 					System.out.println("+++++++++++++++Scenarios are added from Excelsheet+++++++++++++++");
 					for (PickleEvent pickle : feature.getPickles()) {
 						for (int i = 0; i < size; i++) {
@@ -136,7 +138,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 							}
 						}
 					}
-				} else if (prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("N") && scenarioName == null) {
+				} else if ((prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("N") && scenarioName == null && scenarioFromExcel.equalsIgnoreCase("N")) || (scenarioName == null && scenarioFromExcel.equalsIgnoreCase("N"))) {
 					System.out.println("+++++++++++++++All Scenarios Are Added+++++++++++++++");
 					for (PickleEvent pickle : feature.getPickles()) {
 						if (filters.matchesFilters(pickle)) {
@@ -167,8 +169,9 @@ public class TestNGCucumberRunner extends CommonMethod {
 		List<List<String>> allFeatures = readExcel("./src/main/resources/", "FeatureConfiguration.xlsx","Features");
 		int size = allFeatures.size();
 		String featureName = System.getProperty("FeatureName");
+		String featureFromExcelSheet = System.getProperty("FeatureFromExcelSheet");
 
-		if (prop.getProperty("FeatureFromExcel").equalsIgnoreCase("Y") && featureName == null) {
+		if ((prop.getProperty("FeatureFromExcel").equalsIgnoreCase("Y") && featureName == null && featureFromExcelSheet.equalsIgnoreCase("Y")) || (featureName == null && featureFromExcelSheet.equalsIgnoreCase("Y"))) {
 			System.out.println("+++++++++++++++Features are added from Excelsheet+++++++++++++++");			
 			for (CucumberFeature feature : features) {				
 				for (int i = 0; i < size; i++) {
@@ -184,7 +187,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 				}
 			}
 			
-		} else if (prop.getProperty("FeatureFromExcel").equalsIgnoreCase("N") && featureName == null) {
+		} else if ((prop.getProperty("FeatureFromExcel").equalsIgnoreCase("N") && featureName == null && featureFromExcelSheet.equalsIgnoreCase("N")) || (featureName == null && featureFromExcelSheet.equalsIgnoreCase("N"))) {
 			modifiedFeatures.addAll(features);
 			System.out.println("+++++++++++++++All Features Are Added+++++++++++++++");
 			
