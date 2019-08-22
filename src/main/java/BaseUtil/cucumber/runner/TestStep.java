@@ -76,10 +76,8 @@ abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
 
     private Result.Type executeStep(Scenario scenario, boolean skipSteps) throws Throwable {
         if (!skipSteps) {
-        	String screenshotIn = prop.getProperty("Screenshot");
-        	String screenshotOut = System.getProperty("Screenshot");
-            stepDefinitionMatch.runStep(scenario);
-            if ( (!(driverClosed == true) && screenshotIn.equalsIgnoreCase("Y") && screenshotOut.equalsIgnoreCase("Y")) || (!(driverClosed == true) && screenshotOut.equalsIgnoreCase("Y"))) {
+        	stepDefinitionMatch.runStep(scenario);
+            if (!(driverClosed == true)) {
              	scenario.embed(visiblePageScreenshot(), "image/jpeg");
             }            
             return Result.Type.PASSED;            
