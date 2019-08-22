@@ -53,6 +53,9 @@
 								<param>CucumberTestReport.json</param>
 							</jsonFiles>
 							<checkBuildResult>false</checkBuildResult>
+							<systemPropertyVariables>
+								<Screenshot>${Screenshot}</Screenshot>
+							</systemPropertyVariables>
 						</configuration>
 					</execution>
 				</executions>

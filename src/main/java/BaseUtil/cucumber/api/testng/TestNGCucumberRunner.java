@@ -121,7 +121,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 			for (CucumberFeature feature : features) {
 				System.out.println("Feature selected >>>>>>>>>>>>>" + feature.getName());
 
-				if (prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("Y")) {
+				if (prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("Y") && scenarioName == null) {
 					System.out.println("+++++++++++++++Scenarios are added from Excelsheet+++++++++++++++");
 					for (PickleEvent pickle : feature.getPickles()) {
 						for (int i = 0; i < size; i++) {

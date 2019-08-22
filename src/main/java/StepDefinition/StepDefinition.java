@@ -33,33 +33,27 @@ public class StepDefinition extends CommonMethod {
 
 	@When("^valid Depart and arrival pair is entered$")
 	public void enterValidLocations() throws Throwable {
-		highlightElement(loginToPage.departureField());
-		clearAndSendKeysToElement(loginToPage.departureField(), "MCO");
-		highlightElement(loginToPage.arrivalField());
-		clearAndSendKeysToElement(loginToPage.arrivalField(), "DAL");
+		clearAndSendKeysToElement(highlightElement(loginToPage.departureField()), "MCO");
+		clearAndSendKeysToElement(highlightElement(loginToPage.arrivalField()), "DAL");
 		logger.info("DEST and ARR location code entered");
-		//fullScreenShot(System.currentTimeMillis());
 	}
 
 	@When("^valid (.*) and (.*) location is entered$")
 	public void enterDataTablesLocations(String Depart, String Arrival) throws Throwable {
-		highlightElement(loginToPage.departureField());
-		clearAndSendKeysToElement(loginToPage.departureField(), Depart);
-		highlightElement(loginToPage.arrivalField());
-		clearAndSendKeysToElement(loginToPage.arrivalField(), Arrival);
+		clearAndSendKeysToElement(highlightElement(loginToPage.departureField()), Depart);
+		clearAndSendKeysToElement(highlightElement(loginToPage.arrivalField()), Arrival);
 		logger.info("DEST and ARR location code entered");	
 	}
 	
 	@When("Search button clicked")
 	public void search_button_clicked() throws IOException {
-		highlightElement(loginToPage.searchButton());
-		click(loginToPage.searchButton());
+		click(highlightElement(loginToPage.searchButton()));
 		logger.info("Search button clicked");
 	}
 
 	@Then("^user should able to navigate to Select Flight Page$")
 	public void selectFlightPage() throws InterruptedException, IOException {
-		Thread.sleep(8000);
+		Thread.sleep(4000);
 		String pageTitle = driver.getTitle();
 		Assert.assertEquals(pageTitle, "Southwest Airlines - Select Flights");
 		logger.info("Page title matched");
@@ -80,8 +74,8 @@ public class StepDefinition extends CommonMethod {
 		System.out.println("Tables data as >>>>>>>>> " + list);
 		
 		//for (Map<String, String> location :  list) {
-			clearAndSendKeysToElement(loginToPage.departureField(), list.get(0).get("Source"));
-			clearAndSendKeysToElement(loginToPage.arrivalField(), list.get(0).get("Destination"));
+			clearAndSendKeysToElement(highlightElement(loginToPage.departureField()), list.get(0).get("Source"));
+			clearAndSendKeysToElement(highlightElement(loginToPage.arrivalField()), list.get(0).get("Destination"));
 			logger.info("DEST and ARR location code entered");	
 		//}	
 	}
