@@ -68,7 +68,8 @@ public class TestNGCucumberRunner extends CommonMethod {
 		List<String> modifiedTagNames = new ArrayList<>();;
 		int size = allTagNames.size();
 		String tagName = System.getProperty("TagName");
-		String tagFromExcel = System.getProperty("TagFromExcel");
+		String tagFromExcelIn = prop.getProperty("TagFromExcel");
+		String tagFromExcelOut = System.getProperty("TagFromExcel");
 
 		if (prop.getProperty("TagFromExcel").equalsIgnoreCase("Y") && tagName == null) {
 			System.out.println("++++++++++++Tags are added from Excelsheet+++++++++++");
@@ -79,8 +80,10 @@ public class TestNGCucumberRunner extends CommonMethod {
 			}
 			String tags = String.join(",", modifiedTagNames);
 			runtimeOptions.getTagFilters().add(tags);
+			
 		} else if (prop.getProperty("TagFromExcel").equalsIgnoreCase("N") && tagName == null) {
 			System.out.println("++++++++++++Default Tags are added+++++++++++");
+			
 		} else {
 			System.out.println("Tag is being executed >>>>>>>>>>>>  "+ tagName);
 			runtimeOptions.getTagFilters().add(tagName);
@@ -118,7 +121,8 @@ public class TestNGCucumberRunner extends CommonMethod {
 					"Scenarios");
 			int size = allScenarios.size();
 			String scenarioName = System.getProperty("ScenarioName");
-			String scenarioFromExcel = System.getProperty("ScenarioFromExcel");
+			String scenFromExcelIn = prop.getProperty("ScenarioFromExcel");
+			String scenFromExcelOut = System.getProperty("ScenarioFromExcel");
 
 			for (CucumberFeature feature : features) {
 				System.out.println("Feature selected >>>>>>>>>>>>>" + feature.getName());
@@ -133,11 +137,11 @@ public class TestNGCucumberRunner extends CommonMethod {
 											new CucumberFeatureWrapperImpl(feature) });
 									System.out.println("Added Scenario name >>>>>>>>>>>>  " + pickle.pickle.getName());
 									break;
-								}
-								
+								}								
 							}
 						}
 					}
+					
 				} else if (prop.getProperty("ScenarioFromExcel").equalsIgnoreCase("N") && scenarioName == null) {
 					System.out.println("+++++++++++++++All Scenarios Are Added+++++++++++++++");
 					for (PickleEvent pickle : feature.getPickles()) {
@@ -146,6 +150,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 									new CucumberFeatureWrapperImpl(feature) });
 						}
 					}
+					
 				} else {
 					for (PickleEvent pickle : feature.getPickles()) {
 						if (scenarioName.equalsIgnoreCase(pickle.pickle.getName())) {
@@ -153,7 +158,7 @@ public class TestNGCucumberRunner extends CommonMethod {
 							scenarios.add(new Object[] { new PickleEventWrapperImpl(pickle),new CucumberFeatureWrapperImpl(feature) });
 						}						
 					}
-				}
+				}				
 			}
 			return (Object[][]) scenarios.toArray(new Object[][] {});
 		} catch (CucumberException e) {
@@ -169,7 +174,8 @@ public class TestNGCucumberRunner extends CommonMethod {
 		List<List<String>> allFeatures = readExcel("./src/main/resources/", "FeatureConfiguration.xlsx","Features");
 		int size = allFeatures.size();
 		String featureName = System.getProperty("FeatureName");
-		String featureFromExcelSheet = System.getProperty("FeatureFromExcelSheet");
+		String featureExcelSheetIn = prop.getProperty("FeatureFromExcelSheet");
+		String featureExcelSheetOut = System.getProperty("FeatureFromExcelSheet");
 
 		if (prop.getProperty("FeatureFromExcel").equalsIgnoreCase("Y") && featureName == null) {
 			System.out.println("+++++++++++++++Features are added from Excelsheet+++++++++++++++");			

@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -34,7 +35,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.SessionId;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import RunnerClass.TestRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -90,7 +95,6 @@ public class CommonMethod extends TestRunner{
 		}
 		return prop;
 	}
-
 
 	public void getCellType(List<String> innerList, Row row, int j) {
 		switch (row.getCell(j).getCellType()) {
@@ -258,5 +262,28 @@ public class CommonMethod extends TestRunner{
 			Select select = new Select(webElement);
 			select.selectByVisibleText(Value);
 		}
-	}	
+	}
+	
+	public boolean isNullOrEmpty(String str) {
+		if (str != null && !str.isEmpty())
+			return false;
+		return true;
+	}
+	
+	public void waitPageLoad() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		for (int i = 0; i < 25; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				logger.info("Page Not Loaded within 25 seconds");
+			}
+			if (js.executeScript("return document.readyState").toString().equals("complete")) {
+				Thread.sleep(3000);
+				logger.info("Page Loaded successfully");
+				break;
+			}
+		}
+	}
+	
 }
