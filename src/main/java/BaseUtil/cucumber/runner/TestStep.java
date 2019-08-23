@@ -12,6 +12,10 @@ import cucumber.api.event.TestStepStarted;
 import cucumber.runtime.StepDefinitionMatch;
 
 abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
+	
+	static String screenshotIn;
+	static String screenshotOut = System.getProperty("Screenshot");
+	
     private static final String[] ASSUMPTION_VIOLATED_EXCEPTIONS = {
         "org.junit.AssumptionViolatedException",
         "org.junit.internal.AssumptionViolatedException",
@@ -63,6 +67,7 @@ abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
         		} finally {			
         			driver.quit();
         			driverClosed = true;
+        			logger.info("Step failed and Browser closed");
         		}	
             }            
         }
@@ -77,10 +82,18 @@ abstract class TestStep extends CommonMethod implements cucumber.api.TestStep {
     private Result.Type executeStep(Scenario scenario, boolean skipSteps) throws Throwable {
         if (!skipSteps) {
         	stepDefinitionMatch.runStep(scenario);
-            if (!(driverClosed == true)) {
-             	scenario.embed(visiblePageScreenshot(), "image/jpeg");
+        	
+    		if (!isNullOrEmpty(screenshotOut)) {
+    			screenshotIn = screenshotOut;
+    		}else {
+    			screenshotIn = prop.getProperty("Screenshot");
+    		}    		
+    		
+            if (!(driverClosed == true) && screenshotIn.equalsIgnoreCase("Y")) {            	
+            		scenario.embed(visiblePageScreenshot(), "image/jpeg");            	             	
             }            
-            return Result.Type.PASSED;            
+            return Result.Type.PASSED; 
+            
         } else {
             stepDefinitionMatch.dryRunStep(scenario);
             return Result.Type.SKIPPED;

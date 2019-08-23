@@ -24,10 +24,10 @@ public class StepDefinition extends CommonMethod {
 	}
 
 	@Given("^Open Browser and navigate to Home page$")
-	public void openApplication() throws Throwable {
+	public void openApplication() throws Throwable {		
 		driver.get(prop.getProperty("url"));
 		driver.manage().window().maximize();
-		Thread.sleep(5000);
+		waitPageLoad();
 		logger.info("Application opened in given Browser");
 	}
 
@@ -53,7 +53,7 @@ public class StepDefinition extends CommonMethod {
 
 	@Then("^user should able to navigate to Select Flight Page$")
 	public void selectFlightPage() throws InterruptedException, IOException {
-		Thread.sleep(4000);
+		waitPageLoad();
 		String pageTitle = driver.getTitle();
 		Assert.assertEquals(pageTitle, "Southwest Airlines - Select Flights");
 		logger.info("Page title matched");
