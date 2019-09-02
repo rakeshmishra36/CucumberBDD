@@ -1,9 +1,12 @@
 package RunnerClass;
 
 
+import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.codehaus.plexus.util.FileUtils;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import BaseUtil.CommonMethod;
@@ -41,6 +44,11 @@ public class TestRunner extends AbstractTestNGCucumberTests{
 		String configFileName = "./src/main/resources/log4j.properties";
 		PropertyConfigurator.configure(configFileName);
 		prop = commonMethod.getPropValues();
+	}
+	
+	@AfterSuite
+	public static void fileDeleted() throws IOException {
+		FileUtils.deleteDirectory("./src/main/resources/FeatureFiles/temp/");
 	}
 
 }
