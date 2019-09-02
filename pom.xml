@@ -57,6 +57,29 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>generate-test-resources-execution</id>
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>processor.Main</mainClass>
+							<arguments>
+								<argument>src/main/resources/template/</argument>
+								<argument>src/main/resources/FeatureFiles/temp/</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
@@ -78,7 +101,6 @@
 			<artifactId>cucumber-html</artifactId>
 			<version>0.2.7</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>info.cukes</groupId>
@@ -107,12 +129,6 @@
 		<dependency>
 			<groupId>net.masterthought</groupId>
 			<artifactId>cucumber-reporting</artifactId>
-			<version>3.20.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.masterthought</groupId>
-			<artifactId>maven-cucumber-reporting</artifactId>
 			<version>3.20.0</version>
 		</dependency>
 
@@ -176,6 +192,12 @@
 			<groupId>ru.yandex.qatools.ashot</groupId>
 			<artifactId>ashot</artifactId>
 			<version>1.5.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>tech.grasshopper</groupId>
+			<artifactId>cukefeatureprocessor</artifactId>
+			<version>1.1.2</version>
 		</dependency>
 
 	</dependencies>

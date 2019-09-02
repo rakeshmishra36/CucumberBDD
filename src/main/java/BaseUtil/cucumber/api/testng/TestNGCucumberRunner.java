@@ -137,7 +137,6 @@ public class TestNGCucumberRunner extends CommonMethod {
 
 			for (CucumberFeature feature : features) {
 				if (scenFromExcelIn.equalsIgnoreCase("Y") && scenarioName == null) {
-					System.out.println("<<<<<<<<<< SCENARIOS ARE ADDED FROM EXCELSHEET >>>>>>>>>>");
 					for (PickleEvent pickle : feature.getPickles()) {
 						for (int i = 0; i < size; i++) {
 							if (allScenarios.get(i).get(2).equalsIgnoreCase("Y")) {
@@ -149,15 +148,17 @@ public class TestNGCucumberRunner extends CommonMethod {
 							}
 						}
 					}
+					System.out.println("<<<<<<<<<< SCENARIOS ARE ADDED FROM EXCELSHEET >>>>>>>>>>");
 					
 				} else if (scenFromExcelIn.equalsIgnoreCase("N") && scenarioName == null) {
-					System.out.println("<<<<<<<<<< ALL SCENARIOS ARE ADDED >>>>>>>>>>");
+					
 					for (PickleEvent pickle : feature.getPickles()) {
 						if (filters.matchesFilters(pickle)) {
 							scenarios.add(new Object[] { new PickleEventWrapperImpl(pickle),
 									new CucumberFeatureWrapperImpl(feature) });
 						}
 					}
+					System.out.println("<<<<<<<<<< ALL SCENARIOS ARE ADDED >>>>>>>>>>");
 					
 				} else {
 					for (PickleEvent pickle : feature.getPickles()) {
