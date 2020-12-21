@@ -25,11 +25,3 @@ Scenario Outline: search for multiple combinations scenario
 		| Depart   	 | Arrival    |
 		| MCO        | ATL        |
 		| DAL        | ATL        |
-		
-		
-#@ExcelSheet 
-	#Scenario: Flight Search using excel sheet
-	#Meta-data: {"dataFile" : "/CucumberBDDSW/src/main/resources/FeatureConfiguration.xlsx"}
-	#When Valid Depart and arrival is entered from excelsheet placed at excel sheet
-	#Then user should able to navigate to Select Flight Page
-	#And Verify Application is closed

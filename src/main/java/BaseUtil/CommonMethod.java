@@ -54,6 +54,8 @@ public class CommonMethod extends TestRunner{
 	public static Logger logger;
 	public static byte[] SrcFile;
 	public static boolean driverClosed;
+	private static Map<String, String> rowMap;
+	private static List<Map<String, String>> rowMapList;
 
 	public void Setup() {
 		logger = Logger.getLogger("ApplicationLog");
@@ -144,21 +146,28 @@ public class CommonMethod extends TestRunner{
 		return excelSheetRows;
 	}
 
-	public void listToMap(String filePath, String fileName, String sheetName) throws IOException {
+	public List<Map<String, String>> listToMap(String filePath, String fileName, String sheetName) throws IOException {
 		List<List<String>> myList = readExcel(filePath, fileName, sheetName);
-		System.out.println("List data >> \n" + myList);
+		String key = null;
+		String value = null;
 
-		int size = myList.size();
-
-		Map<String, String> testCaseMap = new HashMap<String, String>();
-
-		for (int i = 0; i < size; i++) {
-			String key = myList.get(i).get(0).toString();
-			String value = myList.get(i).get(1).toString();
-			testCaseMap.put(key, value);
-			System.out.println("Value of " + key + " : " + testCaseMap.get(key));
+		int rowSize = myList.size();
+		rowMapList = new LinkedList<>();
+		for (int i = 0; i < rowSize; i++) {
+			int colSize = myList.get(i).size();
+			rowMap = new HashMap<>();
+			for (int j = 0; j < colSize; j++) {
+				if ((i + 1) < rowSize) {
+					key = myList.get(0).get(j).toString();
+					value = myList.get(i + 1).get(j).toString();
+					rowMap.put(key, value);
+				}
+			}
+			if (i + 1 < rowSize) {
+				rowMapList.add(rowMap);
+			}
 		}
-		System.out.println("Test case Map " + "\n" + testCaseMap);
+		return rowMapList;
 	}
 
 	public byte[] visiblePageScreenshot(){
